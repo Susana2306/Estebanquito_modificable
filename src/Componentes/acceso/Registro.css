@@ -1,0 +1,74 @@
+#fondo{
+    width:100%;
+    min-height: 100vh;
+    background-image: linear-gradient(rgba(45, 119, 94, 0.1), rgba(28, 90, 69, 0.1)), url("src/Logo/Imagen de WhatsApp 2025-10-14 a las 22.26.29_820f6a5c.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+#ventanaPrincipal{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+#form{
+    display: flex;
+    flex-direction: column;
+    height: 75%;
+    width: 45%;
+    padding: 15px;
+    align-items: center;
+    justify-content: center;
+    gap:10px;
+    border-style: outset;
+    border-radius: 10px;
+    border-color: rgb(35 89 74);
+    background-image: url("src/Logo/images (1).jpeg");
+    background-size: cover;
+    background-position: center;
+    color: rgb(19 51 42);
+}
+
+#identidad{
+    width: 84%;
+    height: 55%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.input{
+    width: 55%;
+    height: 10%;
+    border-radius: 8px;
+}
+
+.identidadInput{
+    height:65%;
+    width: 55%;
+    border-radius: 8px;
+}
+
+.identidadBox{
+    height:60%;
+    border-radius: 8px;
+}
+
+.input::placeholder {
+    text-indent: 3px;
+}
+
+#registra{
+    border-radius: 15px;
+    width:30%;
+    color:white;
+    background-color: rgb(97 143 130);
+    margin-top: 10px;
+    font-weight: bolder;
+}

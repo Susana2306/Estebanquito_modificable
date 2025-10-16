@@ -1,0 +1,79 @@
+#panelPrincipal{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    color:rgb(24, 61, 51);
+
+}
+
+#contenedorPadre{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-image: linear-gradient(rgba(183, 250, 197, 0.25), rgba(161, 247, 206, 0.35)), url("src/Logo/abstract-glowing-big-data-forex-600nw-2119930133.webp");
+    background-size: cover;
+    background-position: center;
+    width:100%;
+    height:95vh;
+    padding: 30px;
+}
+
+#contenedorInputs{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 70vh;
+}
+
+#label{
+    padding-top: 100px;
+}
+
+#contenedorLogin{
+    width:50%;
+    height: 72vh;
+    background-image: linear-gradient(rgba(169, 250, 186, 0.35), rgba(142, 250, 198, 0.35)), url("src/Logo/images (1).jpeg");
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    display:flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+    border-style: inset;
+    border-color: rgb(35 89 74);
+}
+
+.inputLogin{
+    width:80%;
+    height:30px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+#boton{
+    width: 80%;
+    height: 30px;
+    background-color: rgb(35 89 74);
+    border-radius: 10px;
+    color: white;
+    margin-bottom: 5px;
+    margin-top: 40px;
+}
+
+#image{
+    height:72vh;
+    width: 600px;
+    border-radius: 10px;
+    border-style: outset;
+    border-color: rgb(35 89 74);
+}
+
+#link{
+    color: rgb(35 89 74);
+}

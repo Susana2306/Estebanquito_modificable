@@ -1,0 +1,68 @@
+#cuerpo{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 82.5vh;
+    background-image: url("src/Logo/istockphoto-929146988-612x612.jpg");
+    background-size: cover;
+    background-position: center;
+    color: rgb(19 51 42);
+}
+
+#transferencia{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 30%;
+    height: 50vh;
+    
+    border-radius: 10px;
+    border-style: inset;
+    border-color: rgb(127, 255, 244);
+    background-color: rgb(192, 245, 245);
+}
+
+#paraAlinear{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 10vh;
+    justify-content: right;
+    top:0;
+    margin-top: 20x;
+    margin-bottom: 20px;
+}
+
+#contenido{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 55vh;
+    gap:10px;
+}
+
+#containerMov{
+    height: 70vh;
+    margin-bottom: 50px;
+    width: 100%;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#containerMov .input{
+    height: 30px;
+}
+#paraAlinear2{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: right;
+    padding-top: 20px;
+}
