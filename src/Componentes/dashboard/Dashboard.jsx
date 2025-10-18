@@ -9,9 +9,6 @@ function Dashboard(){
     const [visible, setVisible] = useState(false);
 
     const location= useLocation();
-
-
-    
     
     const navigate= useNavigate();
 
@@ -23,15 +20,13 @@ function Dashboard(){
         setVisible(!visible);
     }
 
-
-
     const logout = ()=>{
         navigate("/")
     }
 
     const moverPlata = (accion)=>{
 
-        navigate("/transferir")
+        navigate("/transferir", {state: {accion}})
     }
 
     const reporte = ()=>{

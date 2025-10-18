@@ -20,6 +20,7 @@ function Prestamo() {
                                 <i className="bi bi-x-circle"></i>
                             </button>
                 </div>
+                <h3>Solicita tu préstamo</h3>
                 <input type="number" placeholder="Valor a solicitar" className="input"/>
                 <input type="number" placeholder="Número de cuotas a pagar" className="input"/>
                 <input type="number" placeholder="Valor del salario mensual" className="input"/>
