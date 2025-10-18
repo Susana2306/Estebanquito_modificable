@@ -24,7 +24,8 @@ function Prestamo() {
                 <input type="number" placeholder="Número de cuotas a pagar" className="input"/>
                 <input type="number" placeholder="Valor del salario mensual" className="input"/>
                 <input type="number" placeholder="Valor de los gastos mensuales" className="input"/>
-                <h5>El valor que tendrías que pagar mensualmente es: </h5>
+                <h5>El valor que tendrías que pagar mensualmente es:</h5>
+                <h5>valor</h5>
                 <button id="registra">Realizar Préstamo</button>
             </div>
         </div>
