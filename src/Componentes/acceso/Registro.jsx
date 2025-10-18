@@ -45,6 +45,11 @@ function Registro (){
                             </select>
                             <input type="number" placeholder="Ingresa tu número de documento" className="identidadInput"/>
                         </div>
+                        <select className="identidadInput">
+                                <option value= "" disabled selected>Selecciona el tipo de persona</option>
+                                <option value="ahorros">Natural</option>
+                                <option value="corriente">Jurídica</option>
+                            </select>
                         <input type="text" placeholder="¿Cómo te gusta que te llamen?" className="input"/>
                         <input type="text" placeholder="Ingresa tu correo electrónico" className="input"/>
                         <input type="text" placeholder="Ingresa tu contraseña" className="input"/>
