@@ -3,7 +3,7 @@ import {Link} from "react-router";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 
-function Login({valor}){
+function Login(){
     const navigate= useNavigate();
     const [campo, setCampo]= useState("");
 
@@ -20,7 +20,6 @@ function Login({valor}){
 
 
     const validarUser= ()=>{
-        alert("Hola, "+ campo)
         // campo == "Susana" ? navigate("/dashboard"): alert("No tienes acceso");
         if(campo=="Susana"){
 

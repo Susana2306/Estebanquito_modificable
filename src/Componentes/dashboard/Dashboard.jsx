@@ -7,12 +7,9 @@ import { useNavigate } from "react-router";
 function Dashboard(){
 
     const [visible, setVisible] = useState(false);
-    // const [data, setData] = useState("Susana")
-   
-    const location= useLocation();
-   
 
-    //const {nombreUsuario}= location.state === null ? localStorage.getItem("pruebita") : nombreUsuario;
+    const location= useLocation();
+
 
     
     
@@ -39,6 +36,10 @@ function Dashboard(){
 
     const reporte = ()=>{
         navigate("/reporteFinanciero")
+    }
+
+    const prestamo = ()=>{
+        navigate("/SolicitarPrestamo")
     }
 
     return(
@@ -126,7 +127,7 @@ function Dashboard(){
 
                 <div id="prestamo">
                     <h5>Solicita un préstamo aqui</h5>
-                    <button id="botonPrestamo">
+                    <button id="botonPrestamo" onClick={prestamo}>
                         <img src="src\Logo\solicitud.png" alt="Préstamo" width="180px" className="imagenP" />
                     </button>
                 </div>

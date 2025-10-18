@@ -9,8 +9,7 @@ function Transferencia(){
 
     const navigate= useNavigate();
 
-    // const {accion}= location.state;
-    const [accion, setAccion] = useState("transferir")
+    const {accion}= location.state;
 
     const retrocede = ()=>{
         navigate("/dashboard")

@@ -6,6 +6,7 @@ import Login from './Componentes/acceso/Login'
 import Registro from './Componentes/acceso/Registro'
 import Transferencia from './Componentes/Movimientos/Transferencia';
 import ReporteFinanciero from './Componentes/reportes/ReporteFinanciero';
+import Prestamo from './Componentes/prestamos/Prestamo';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/registro" element={<Registro />} />
         <Route path="/transferir" element={<Transferencia />} />
         <Route path="/reporteFinanciero" element={<ReporteFinanciero />} />
+        <Route path="/SolicitarPrestamo" element={<Prestamo />} />
       </Routes>
     </BrowserRouter>
   )
