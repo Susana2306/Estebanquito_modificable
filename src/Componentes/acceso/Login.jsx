@@ -9,6 +9,7 @@ function Login({valor}){
 
     const [visible, setVisible] = useState(false);
 
+    
     const mostrarMenu = () => {
         setVisible(!visible);
     };
@@ -22,7 +23,10 @@ function Login({valor}){
         alert("Hola, "+ campo)
         // campo == "Susana" ? navigate("/dashboard"): alert("No tienes acceso");
         if(campo=="Susana"){
-            navigate("/dashboard", {state:{nombreUsuario: {campo}}});
+
+            localStorage.setItem("pruebita", campo);
+            navigate("/dashboard");
+            
         }
         else{
             alert("No tienes acceso :(")

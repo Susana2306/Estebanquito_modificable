@@ -12,10 +12,10 @@ function Dashboard(){
     const location= useLocation();
    
 
-    const {nombreUsuario}= location.state === null ? localStorage.getItem("pruebita") : nombreUsuario;
+    //const {nombreUsuario}= location.state === null ? localStorage.getItem("pruebita") : nombreUsuario;
 
     
-    localStorage.setItem("pruebita", nombreUsuario.campo);
+    
     const navigate= useNavigate();
 
     const mostrarMenu = () => {
