@@ -1,0 +1,205 @@
+#vistaPrincipalM{
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    flex-direction: column;
+    background-color: rgb(228, 255, 246);
+}
+
+#MisMov{
+    flex: 1;
+    margin-top: 10px;
+    width: 350px;
+    align-items: center;
+    margin-left: 40px;
+}
+
+#menuHamburguesaM{
+    display: flex;
+    font-size: 50px;
+    background: none;
+    border-style: none;
+    right: 20px;
+}
+
+#paraAlinear2{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: right;
+    padding-top: 20px;
+}
+
+#PanelPrincipalM{
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#historialM{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 90%;
+    background-color: white;
+    margin-top: 20px;
+    border-radius: 20px;
+}
+
+#Movimiento1{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    width: 95%;
+    height: 120px;
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 30px;
+    background-color: white;
+    border-radius: 20px;
+    border: solid;
+    border-color: green;
+}
+
+#Sujeto1{
+    width: 40%;
+    height: 90%;
+    margin-left: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+#fecha1{
+    width: 300px;
+}
+
+#banco{
+    width: 300px;
+}
+
+#Valor1{
+    width: 300px;
+    justify-content: flex-start;
+    float: inline-end;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 500px;
+}
+
+#Pago1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    height: 90%;
+    color: green;
+    width: 300px;
+    text-align: right;
+}
+
+#TituloM{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    width: 90%;
+    border-top: 6px;
+    background-color: white;
+    border-radius: 20px;
+    padding-left: 450px;
+}
+
+#Movimiento2{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    width: 95%;
+    height: 120px;
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 30px;
+    background-color: white;
+    border-radius: 20px;
+    border: solid;
+    border-color: red;
+}
+
+#Sujeto2{
+    width: 40%;
+    height: 90%;
+    margin-left: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+#fecha2{
+    width: 300px;
+}
+
+#banco{
+    width: 300px;
+}
+
+#Pago2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    height: 90%;
+    color: red;
+    width: 300px;
+    text-align: right;
+}
+
+#Movimiento3{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    width: 95%;
+    height: 120px;
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 30px;
+    background-color: white;
+    border-radius: 20px;
+    border: solid;
+    border-color: green;
+}
+
+#Sujeto3{
+    width: 40%;
+    height: 90%;
+    margin-left: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+#fecha3{
+    width: 300px;
+}
+
+#ingreso{
+    width: 300px;
+}
+
+#Pago3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    height: 90%;
+    color: green;
+    width: 300px;
+    text-align: right;
+}

@@ -7,6 +7,10 @@ import Registro from './Componentes/acceso/Registro'
 import Transferencia from './Componentes/Movimientos/Transferencia';
 import ReporteFinanciero from './Componentes/reportes/ReporteFinanciero';
 import Prestamo from './Componentes/prestamos/Prestamo';
+import Historial from './Componentes/historial/Historial';
+import Adjust from './Componentes/adjust/Adjust';
+
+
 
 function App() {
 
@@ -20,6 +24,8 @@ function App() {
         <Route path="/transferir" element={<Transferencia />} />
         <Route path="/reporteFinanciero" element={<ReporteFinanciero />} />
         <Route path="/SolicitarPrestamo" element={<Prestamo />} />
+        <Route path="/historial" element={<Historial />} />
+        <Route path="/adjust" element={<Adjust />} />
       </Routes>
     </BrowserRouter>
   )
