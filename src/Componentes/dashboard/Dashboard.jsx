@@ -29,12 +29,20 @@ function Dashboard(){
         navigate("/transferir", {state: {accion}})
     }
 
+    const historicoMovimientos = () =>{
+        navigate("/historial")
+    }
+
     const reporte = ()=>{
         navigate("/reporteFinanciero")
     }
 
     const prestamo = ()=>{
         navigate("/SolicitarPrestamo")
+    }
+
+    const Adjust = () =>{
+        navigate("/adjust")
     }
 
     return(
@@ -44,7 +52,7 @@ function Dashboard(){
                 <img src="src\Logo\logo_Estebanquito.png" id="logo" width="125px"/>
 
                 <div id="accesos">
-                    <button id="menuHamburguesa"><i className="bi bi-gear-fill" style={{fontSize: '30px', color:"rgb(0, 53, 24)"}}></i></button>
+                    <button id="menuHamburguesa" onClick={Adjust}><i className="bi bi-gear-fill" style={{fontSize: '30px', color:"rgb(0, 53, 24)"}}></i></button>
                     <button id="menuHamburguesa" onClick={logout}><i className="bi bi-box-arrow-right" style={{fontSize: '30px', color:"rgb(0, 53, 24)"}}></i></button>
                 </div>
             </div>
@@ -84,14 +92,13 @@ function Dashboard(){
                     <h5>Movimientos</h5>
 
                     <div id="historial">
-                        <button id="botonHistorial">
+                        <button id="botonHistorial" onClick = {historicoMovimientos}>
                             <img src="src\Logo\historial.png" alt="Historial" width="50px" className="imagenH" />
                         </button>
                         <h6>Historial Transaccional</h6>
                     </div>
 
                     <div id="contenedorBotones">
-
                         <div id="movimientos">
                             <button id="botonHistorial" onClick={() => moverPlata("transferir")}>
                                 <img src="src\Logo\Transferir.png" alt="Transferir" width="50px" className="imagenH" />
