@@ -11,11 +11,19 @@ function ReporteFinanciero(){
 
     const location= useLocation();
 
+    const retrocede = ()=>{
+        navigate("/dashboard")
+    }
+
     return(
-        <div id="pnlPrincipal">
+        <div id="principalAdjust">
             <div id="vistaPrincipal">
                 <div id="top">
                     <img src="src/Logo/logo_Estebanquito.png" id="logo" width="125px"/>
+
+                    <button id="volver" onClick={retrocede}>
+                        <i className="bi bi-backspace-fill"></i>
+                    </button>
                 </div>
             </div>
             <div id="ordenArriba">
@@ -43,11 +51,12 @@ function ReporteFinanciero(){
                 </div>
                 <div id="grafica1">
                     <h4>Grafica por Categoria</h4>
-                    <h4>Grafica random</h4>
+                    <img src="src\Logo\GraficoCircular.png" alt="Grafico Circular" className="graficoC"/>
                 </div>
             </div>
             <div id="grafica2">
                 <h4>Evolucion de Balance</h4>
+                <img src="src\Logo\reportesFinancieros.png" alt="Reporte" className="graficoL"/>
             </div>
         </div>
     )
