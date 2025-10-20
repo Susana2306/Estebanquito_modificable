@@ -45,6 +45,8 @@ function Dashboard(){
     }
 
     const [apodo, setApodo] = useState("");
+    const [numCuenta, setNumCuenta] = useState("");
+    const [tipoCuenta, setTipoCuenta] = useState("");
 
     const FijarApodo = ()=>{
         const dataGuardada = localStorage.getItem("usuarios");
@@ -58,8 +60,34 @@ function Dashboard(){
         }
     }
 
+    const FijarCuenta = ()=>{
+        const dataGuardada = localStorage.getItem("usuarios");
+        const usuarios = dataGuardada ? JSON.parse(dataGuardada) : [];
+
+        for (let i = 0; i < usuarios.length; i++) {
+            if(usuarios[i].correo=== localStorage.getItem("pruebita")){
+                setNumCuenta(usuarios[i].numCuenta);
+                break;
+            }
+        }
+    }
+
+    const FijarTipoCuenta = ()=>{
+        const dataGuardada = localStorage.getItem("usuarios");
+        const usuarios = dataGuardada ? JSON.parse(dataGuardada) : [];
+
+        for (let i = 0; i < usuarios.length; i++) {
+            if(usuarios[i].correo=== localStorage.getItem("pruebita")){
+                setTipoCuenta(usuarios[i].tipoCuenta);
+                break;
+            }
+        }
+    }
+
     useEffect(() => {
         FijarApodo();
+        FijarCuenta();
+        FijarTipoCuenta();
     }, []);
 
     return(
@@ -84,7 +112,7 @@ function Dashboard(){
                     
                     <div id="valores">
                         <h4>Tu número de cuenta es:</h4>
-                        <h5>102436495</h5>
+                        <h5>{numCuenta}</h5>
                     </div>
                 </div>
             </div>
@@ -95,7 +123,7 @@ function Dashboard(){
                 </div>
                 <div id="cuenta">
                     <h5>Tipo de cuenta</h5>
-                    <h2>Ahorros</h2>
+                    <h2>{tipoCuenta}</h2>
                 </div>
                 <div id="cuenta">
                     <h5>Saldo pendiente</h5>

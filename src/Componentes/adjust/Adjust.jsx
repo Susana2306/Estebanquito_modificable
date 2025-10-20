@@ -16,12 +16,13 @@ function Adjust(){
     const [contraseñaNueva, setContraseñaNueva]= useState("");
     const [confirmacion, setConfirmacion]= useState("");
 
+
     const guardar = ()=>{
-        if(contraseñaAntigua == contraseñaNueva){
+        if(contraseñaAntigua === contraseñaNueva){
             alert("Tu nueva contraseña debe ser diferente a la actual")
         }
         else{
-            if (contraseñaNueva == confirmacion){
+            if (contraseñaNueva === confirmacion){
                 alert ("Cambio exitoso")
             }
         }

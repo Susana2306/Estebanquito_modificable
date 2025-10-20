@@ -30,6 +30,7 @@ function Registro (){
                 apodo: "Susi",
                 correo: "ssolorzano@correo.iue.edu.co",
                 contraseña: "123",
+                numCuenta: "1035875690"
             },
         ];
 });
@@ -44,10 +45,29 @@ function Registro (){
     const [contraseña, setContraseña]= useState("");
     const [confirmacion, setConfirmacion]= useState("");
 
+
     useEffect(() => {
     localStorage.setItem("usuarios", JSON.stringify(usuario))}, [usuario]);
 
+    function generarNumeroCuentaUnico() {
+        const dataGuardada = localStorage.getItem("usuarios");
+        const usuarios = dataGuardada ? JSON.parse(dataGuardada) : [];
+
+        let numeroCuenta;
+        let repetido;
+
+        do {
+            numeroCuenta = Math.floor(Math.random() * 9000000000) + 1000000000;
+            repetido = usuarios.some(u => u.numCuenta === numeroCuenta.toString());
+        } while (repetido);
+
+        return numeroCuenta.toString();
+
+    }
+
     const crearUsuario = ()=>{
+        const numeroCuenta = generarNumeroCuentaUnico();
+
         if(contraseña==confirmacion){
             setUsuario([...usuario, { nombre: name, 
                 fechaNacimiento: fechaN,
@@ -56,9 +76,10 @@ function Registro (){
                 tipoCuenta: tipoC,
                 apodo: apodo,
                 correo: correo,
-                contraseña: contraseña}]);
+                contraseña: contraseña,
+                numCuenta: numeroCuenta}]);
                 
-            localStorage.setItem("pruebita", apodo)
+            localStorage.setItem("pruebita", correo)
             navigate("/dashboard");
         }
         else{
@@ -102,8 +123,9 @@ function Registro (){
                         className="input"/>
 
                         <div id="identidad">
-                            <select className="identidadBox"
+                            <select className="identidadBox" value={tipoI}
                             onChange={(e)=> setTipoI(e.target.value)}>
+                                <option value= "" disabled selected>Tipo</option>
                                 <option value="CC">CC</option>
                                 <option value="CE">CE</option>
                             </select>
@@ -118,8 +140,8 @@ function Registro (){
                         <select className="identidadInput"
                         onChange={(e)=> setTipoC(e.target.value)}>
                                 <option value= "" disabled selected>Selecciona el tipo de persona</option>
-                                <option value="ahorros">Natural</option>
-                                <option value="corriente">Jurídica</option>
+                                <option value="Ahorros">Natural</option>
+                                <option value="Corriente">Jurídica</option>
                         </select>
 
                         <input type="text" 
