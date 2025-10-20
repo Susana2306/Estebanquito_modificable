@@ -38,6 +38,7 @@ function Registro (){
                         <h1>Organiza tus <strong>finanzas</strong></h1>
                         <h2>con nosotros</h2>
                         <input type="text" placeholder="Ingresa tu nombre completo" className="input"/>
+                        <input type="date" placeholder="Ingresa tu fecha de nacimiento" className="input"/>
                         <div id="identidad">
                             <select className="identidadBox">
                                 <option value="cc">CC</option>

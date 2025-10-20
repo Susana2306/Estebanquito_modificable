@@ -21,7 +21,7 @@ function Login(){
 
     const validarUser= ()=>{
         // campo == "Susana" ? navigate("/dashboard"): alert("No tienes acceso");
-        if(campo=="Susana"){
+        if(campo=="ssolorzano@correo.iue.edu.co"){
 
             localStorage.setItem("pruebita", campo);
             navigate("/dashboard");
@@ -60,7 +60,7 @@ function Login(){
                     <input type="text" 
                     onChange={(e)=> setCampo(e.target.value)} 
                     className="inputLogin"
-                    placeholder="Nombre usuario"/>
+                    placeholder="Correo electrónico"/>
 
                     <input type="password" 
                     onChange={(e)=> setCampo(e.target.value)}
