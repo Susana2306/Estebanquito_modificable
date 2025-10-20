@@ -1,7 +1,7 @@
 #fondo{
     width:100%;
     min-height: 100vh;
-    background-image: linear-gradient(rgba(45, 119, 94, 0.1), rgba(28, 90, 69, 0.1)), url("src/Logo/Imagen de WhatsApp 2025-10-14 a las 22.26.29_820f6a5c.jpg");
+    background-image: linear-gradient(rgba(45, 119, 94, 0.1), rgba(28, 90, 69, 0.1)), url("src/Logo/wmremove-transformed.jpeg");
     background-size: cover;
     background-position: center;
 }
@@ -27,7 +27,7 @@
     border-style: outset;
     border-radius: 10px;
     border-color: rgb(35 89 74);
-    background-image: url("src/Logo/images (1).jpeg");
+    background-image: linear-gradient(rgba(45, 110, 119, 0.1), rgba(28, 78, 90, 0.2)), url("src/Logo/images (1).jpeg");
     background-size: cover;
     background-position: center;
     color: rgb(19 51 42);
