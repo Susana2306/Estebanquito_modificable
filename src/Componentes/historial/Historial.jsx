@@ -6,11 +6,7 @@ import { useNavigate } from "react-router";
 
 function MostrarHistorial(){
 
-    const [visible, setVisible] = useState(false);
-
     const navigate= useNavigate();
-
-    const location= useLocation();
 
     const retrocede = ()=>{
         navigate("/dashboard")

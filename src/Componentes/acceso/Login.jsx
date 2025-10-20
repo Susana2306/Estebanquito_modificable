@@ -4,8 +4,10 @@ import { useNavigate } from "react-router";
 import { useState } from "react";
 
 function Login(){
+
     const navigate= useNavigate();
     const [campo, setCampo]= useState("");
+    const [contraseña, setConstraseña]= useState("");
 
     const [visible, setVisible] = useState(false);
 
@@ -21,7 +23,7 @@ function Login(){
 
     const validarUser= ()=>{
         // campo == "Susana" ? navigate("/dashboard"): alert("No tienes acceso");
-        if(campo=="ssolorzano@correo.iue.edu.co"){
+        if((campo=="ssolorzano@correo.iue.edu.co") && (contraseña== "123")){
 
             localStorage.setItem("pruebita", campo);
             navigate("/dashboard");
@@ -63,7 +65,7 @@ function Login(){
                     placeholder="Correo electrónico"/>
 
                     <input type="password" 
-                    onChange={(e)=> setCampo(e.target.value)}
+                    onChange={(e)=> setConstraseña(e.target.value)}
                     className="inputLogin" 
                     placeholder="Contraseña"/>
                     <Link to="/" id="link"> ¿Olvidaste tu contraseña?</Link>

@@ -81,10 +81,18 @@
     align-items: end;
     width: 100%;
     height: 100vh;
-    background-image: url("/Fondo (1).png");
     background-size: cover;
     background-position: center;
+    animation: cambioFondo 30s infinite steps(1, end);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes cambioFondo {
+    0%   { background-image: url("/Fondo (1).png"); }
+    25%  { background-image: url("/fondo 2.png"); }
+    50%  { background-image: url("/fondo 4.png"); }
+    75%  { background-image: url("/Fondo 3.png"); }
+    100% { background-image: url("/Fondo (1).png"); }
 }
 
 #panel{
