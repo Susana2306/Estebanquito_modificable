@@ -1,16 +1,23 @@
 import "./Registro.css";
 import { useState } from "react";
 import {Link} from "react-router";
+import { useNavigate } from "react-router";
 
 function Registro (){
     const [visible, setVisible] = useState(false);
     
+    const navigate= useNavigate();
+
     const mostrarMenu = () => {
         setVisible(!visible);
     };
 
     const ocultarMenu= ()=>{
         setVisible(!visible);
+    }
+
+    const abrirDashboard= ()=>{
+        navigate("/dashboard");
     }
 
     return(
@@ -55,7 +62,7 @@ function Registro (){
                         <input type="text" placeholder="Ingresa tu correo electrónico" className="input"/>
                         <input type="text" placeholder="Ingresa tu contraseña" className="input"/>
                         <input type="password" placeholder="Repite la contraseña" className="input"/>
-                        <button id="registra">Registrarme</button>
+                        <button id="registra" onClick={abrirDashboard}>Registrarme</button>
                         <Link to="/login" id="link">¿Ya tienes una cuenta? Inicia sesión</Link>
                     </div>
             </div>
