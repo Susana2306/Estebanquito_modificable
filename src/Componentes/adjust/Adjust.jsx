@@ -6,36 +6,60 @@ import { useNavigate } from "react-router";
 
 function Adjust(){
 
-    const [visible, setVisible] = useState(false);
-
     const navigate= useNavigate();
-
-    const location= useLocation();
 
     const retrocede = ()=>{
         navigate("/dashboard")
     }
+
+    const [contraseñaAntigua, setContraseñaAntigua]= useState("");
+    const [contraseñaNueva, setContraseñaNueva]= useState("");
+    const [confirmacion, setConfirmacion]= useState("");
+
+    const guardar = ()=>{
+        if(contraseñaAntigua == contraseñaNueva){
+            alert("Tu nueva contraseña debe ser diferente a la actual")
+        }
+        else{
+            if (contraseñaNueva == confirmacion){
+                alert ("Cambio exitoso")
+            }
+        }
+    }
+    
+
     return(
         <div id = "principalAdjust">
             <div id="top">
                 <img src="src/Logo/logo_Estebanquito.png" id="logo" width="125px"/>
             </div>
-            <button id="menuHamburguesaAd" onClick={retrocede}>
-                <i className="bi bi-x-circle"></i>
-            </button>
+            
             <div id = "ventanaAdjustP">
                 <div id = "contenedorSolicitudes">
-                    <h1 id = "CambiarContraseña">Cambia tu contraseña</h1>
-                    <div id="contenedorInputAd">
-                        <input type="text" 
-                        className="inputContraseñaA"
-                        placeholder="Ingresa tu contraseña actual"/>
-
-                        <input type="Nuevo Usuario" 
-                        className="inputContraseñaN" 
-                        placeholder="Ingresa tu nueva contraseña"/>
-                        <button id="botonGuardar">Guardar</button>
+                    <div id= "align">
+                        <button id="menuHamburguesaAd" onClick={retrocede}>
+                            <i className="bi bi-x-circle"></i>
+                        </button>
                     </div>
+                    
+                    <h1>Cambia tu contraseña</h1>
+                        < div id="contenedorInputAd">
+                            <input type="text" 
+                            onChange={(e)=> setContraseñaAntigua(e.target.value)}
+                            className="inputContraseñaA"
+                            placeholder="Ingresa tu contraseña actual"/>
+
+                            <input type="text" 
+                            onChange={(e)=> setContraseñaNueva(e.target.value)}
+                            className="inputContraseñaN" 
+                            placeholder="Ingresa tu nueva contraseña"/>
+
+                            <input type="password" 
+                            onChange={(e)=> setConfirmacion(e.target.value)}
+                            className="inputContraseñaN" 
+                            placeholder="Repite tu nueva contraseña"/>
+                            <button id="botonGuardar" onClick={guardar}>Guardar</button>
+                        </div>
                 </div>
             </div>
         </div>
