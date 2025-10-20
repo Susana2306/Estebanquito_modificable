@@ -1,5 +1,5 @@
 import "./Dashboard.css";
-import { useState, useLocalStorage } from "react";
+import { useState, useEffect } from "react";
 import {Link} from "react-router";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
@@ -7,8 +7,6 @@ import { useNavigate } from "react-router";
 function Dashboard(){
 
     const [visible, setVisible] = useState(false);
-
-    const location= useLocation();
     
     const navigate= useNavigate();
 
@@ -22,6 +20,7 @@ function Dashboard(){
 
     const logout = ()=>{
         navigate("/")
+        localStorage.removeItem("pruebita");
     }
 
     const moverPlata = (accion)=>{
@@ -45,6 +44,24 @@ function Dashboard(){
         navigate("/adjust")
     }
 
+    const [apodo, setApodo] = useState("");
+
+    const FijarApodo = ()=>{
+        const dataGuardada = localStorage.getItem("usuarios");
+        const usuarios = dataGuardada ? JSON.parse(dataGuardada) : [];
+
+        for (let i = 0; i < usuarios.length; i++) {
+            if(usuarios[i].correo=== localStorage.getItem("pruebita")){
+                setApodo(usuarios[i].apodo);
+                break;
+            }
+        }
+    }
+
+    useEffect(() => {
+        FijarApodo();
+    }, []);
+
     return(
         <>
         <div id="pnlPrincipal">
@@ -58,7 +75,7 @@ function Dashboard(){
             </div>
 
             <div id="saludo">
-                <h1>Hola, {localStorage.getItem("pruebita")}</h1>
+                <h1>Hola, {apodo}</h1>
 
                 <div id="numeroCuenta">
                     <div id="icono">

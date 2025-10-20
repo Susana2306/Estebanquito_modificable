@@ -22,18 +22,27 @@ function Login(){
 
 
     const validarUser= ()=>{
-        // campo == "Susana" ? navigate("/dashboard"): alert("No tienes acceso");
-        if((campo=="ssolorzano@correo.iue.edu.co") && (contraseña== "123")){
+        
+        const dataGuardada = localStorage.getItem("usuarios");
+        const usuarios = dataGuardada ? JSON.parse(dataGuardada) : [];
 
-            localStorage.setItem("pruebita", campo);
-            navigate("/dashboard");
-            
-        }
-        else{
-            alert("No tienes acceso :(")
+        for (let i = 0; i < usuarios.length; i++) {
+            if (usuarios[i].correo === campo) {
+                if( usuarios[i].contraseña === contraseña){
+                    localStorage.setItem("pruebita", campo);
+                    navigate("/dashboard");
+                    return;
+                }
+                else{
+                    alert("Contraseña incorrecta");
+                    return;
+                }
+            }
         }
         
+        alert("Usuario no registrado");
     }
+
     return(
         <div id="panelPrincipal">
 
