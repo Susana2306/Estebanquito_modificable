@@ -68,7 +68,7 @@ function Login(){
                     onChange={(e)=> setConstraseña(e.target.value)}
                     className="inputLogin" 
                     placeholder="Contraseña"/>
-                    <Link to="/" id="link"> ¿Olvidaste tu contraseña?</Link>
+                    <Link to="/adjust" id="link"> ¿Olvidaste tu contraseña?</Link>
 
                     <button id="boton" onClick={validarUser}>Iniciar Sesión</button>
                     <Link to="/registro" id="link"> ¿No tienes una cuenta? Registrate</Link>
