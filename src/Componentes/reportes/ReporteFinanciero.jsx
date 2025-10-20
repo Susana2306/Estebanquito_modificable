@@ -1,15 +1,9 @@
 import "./ReporteFinanciero.css";
-import { useState } from "react";
-import {Link} from "react-router";
-import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 
 function ReporteFinanciero(){
 
-    const [visible, setVisible] = useState(false);
     const navigate= useNavigate();
-
-    const location= useLocation();
 
     const retrocede = ()=>{
         navigate("/dashboard")
