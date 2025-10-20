@@ -5,11 +5,8 @@ import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 
 function ReporteFinanciero(){
-
-    const [visible, setVisible] = useState(false);
+    
     const navigate= useNavigate();
-
-    const location= useLocation();
 
     const retrocede = ()=>{
         navigate("/dashboard")
