@@ -20,7 +20,7 @@ function Dashboard(){
 
     const logout = ()=>{
         navigate("/")
-        localStorage.removeItem("pruebita");
+        localStorage.removeItem("usuarioActual");
     }
 
     const moverPlata = (accion)=>{
@@ -47,47 +47,48 @@ function Dashboard(){
     const [apodo, setApodo] = useState("");
     const [numCuenta, setNumCuenta] = useState("");
     const [tipoCuenta, setTipoCuenta] = useState("");
+    const [saldoDisponible, setSaldoDisponible] = useState("");
+    const [saldoPendiente, setSaldoPendiente] = useState("");
 
     const FijarApodo = ()=>{
-        const dataGuardada = localStorage.getItem("usuarios");
-        const usuarios = dataGuardada ? JSON.parse(dataGuardada) : [];
-
-        for (let i = 0; i < usuarios.length; i++) {
-            if(usuarios[i].correo=== localStorage.getItem("pruebita")){
-                setApodo(usuarios[i].apodo);
-                break;
-            }
-        }
+        const dataGuardada =  JSON.parse(localStorage.getItem("usuarioActual"));
+        setApodo(dataGuardada.apodo);
     }
 
     const FijarCuenta = ()=>{
-        const dataGuardada = localStorage.getItem("usuarios");
-        const usuarios = dataGuardada ? JSON.parse(dataGuardada) : [];
-
-        for (let i = 0; i < usuarios.length; i++) {
-            if(usuarios[i].correo=== localStorage.getItem("pruebita")){
-                setNumCuenta(usuarios[i].numCuenta);
-                break;
-            }
-        }
+        const dataGuardada =  JSON.parse(localStorage.getItem("usuarioActual"));
+        setNumCuenta(dataGuardada.numeroCuenta);
+    }
+    const FijarSaldoDisponible = ()=>{
+        const dataGuardada =  JSON.parse(localStorage.getItem("usuarioActual"));
+        setSaldoDisponible(dataGuardada.totalSaldo);
+    }
+    const FijarSaldoPendiente = ()=>{
+        const dataGuardada =  JSON.parse(localStorage.getItem("usuarioActual"));
+        setSaldoPendiente(dataGuardada.deuda);
     }
 
     const FijarTipoCuenta = ()=>{
-        const dataGuardada = localStorage.getItem("usuarios");
-        const usuarios = dataGuardada ? JSON.parse(dataGuardada) : [];
+        const dataGuardada =  JSON.parse(localStorage.getItem("usuarioActual"));
 
-        for (let i = 0; i < usuarios.length; i++) {
-            if(usuarios[i].correo=== localStorage.getItem("pruebita")){
-                setTipoCuenta(usuarios[i].tipoCuenta);
-                break;
-            }
+        let tipoCuenta;
+
+        if(dataGuardada.id_tipoCuenta===1){
+            tipoCuenta= "Ahorros"
         }
+        else{
+            tipoCuenta="Corriente"
+        }
+
+        setTipoCuenta(tipoCuenta)
     }
 
     useEffect(() => {
         FijarApodo();
         FijarCuenta();
         FijarTipoCuenta();
+        FijarSaldoDisponible();
+        FijarSaldoPendiente();
     }, []);
 
     return(
@@ -119,7 +120,7 @@ function Dashboard(){
             <div className="contenedorSaldo">
                 <div id="cuenta">
                     <h5>Saldo disponible</h5>
-                    <h2>$ 2.000.000</h2>
+                    <h2>$ {saldoDisponible.toLocaleString("es-CO")}</h2>
                 </div>
                 <div id="cuenta">
                     <h5>Tipo de cuenta</h5>
@@ -127,7 +128,7 @@ function Dashboard(){
                 </div>
                 <div id="cuenta">
                     <h5>Saldo pendiente</h5>
-                    <h2>$ 1.530.000</h2>
+                    <h2>$ {saldoPendiente.toLocaleString("es-CO")}</h2>
                 </div>
             </div>
 

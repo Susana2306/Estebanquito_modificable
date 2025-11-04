@@ -16,76 +16,89 @@ function Registro (){
         setVisible(!visible);
     }
 
-
-    const [usuario, setUsuario] = useState(() => {
-        const dataGuardada = localStorage.getItem("usuarios");
-        return dataGuardada ? JSON.parse(dataGuardada)
-        :[
-            {
-                nombre: "Susana Solórzano",
-                fechaNacimiento: "2006-02-03",
-                tipoIdentidad: "CE",
-                numI: "1035973422",
-                tipoCuenta: "Ahorros",
-                apodo: "Susi",
-                correo: "ssolorzano@correo.iue.edu.co",
-                contraseña: "123",
-                numCuenta: "1035875690"
-            },
-        ];
-});
-
-    const [name, setName]= useState("");
-    const [fechaN, setFechaN]= useState("");
-    const [tipoI, setTipoI]= useState("");
-    const [numI, setNumI]= useState("");
-    const [tipoC, setTipoC]= useState("");
-    const [apodo, setApodo]= useState("");
-    const [correo, setCorreo]= useState("");
-    const [contraseña, setContraseña]= useState("");
     const [confirmacion, setConfirmacion]= useState("");
+    
+    const [formData, setFormData] = useState({
+        nombre: "",
+        fechaNacimiento: "",
+        tipoIdentificacion: "",
+        numeroIdentificacion: "",
+        tipoCuenta: "",
+        apodo: "",
+        correo: "",
+        contrasena: "",
+    });
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+        ...formData,
+        [name]: value,
+        });
+    };
 
-    useEffect(() => {
-    localStorage.setItem("usuarios", JSON.stringify(usuario))}, [usuario]);
+    const [errorMsg, setErrorMsg] = useState("");
+    const[user, setUser]= useState({});
 
-    function generarNumeroCuentaUnico() {
-        const dataGuardada = localStorage.getItem("usuarios");
-        const usuarios = dataGuardada ? JSON.parse(dataGuardada) : [];
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setErrorMsg("")
+        console.log("Datos enviados:", formData);
+        try {
+            const deuda=0.00;
 
-        let numeroCuenta;
-        let repetido;
+            if(formData.contrasena===confirmacion){
 
-        do {
-            numeroCuenta = Math.floor(Math.random() * 9000000000) + 1000000000;
-            repetido = usuarios.some(u => u.numCuenta === numeroCuenta.toString());
-        } while (repetido);
+                const urlbase = "http://localhost:3001/"
 
-        return numeroCuenta.toString();
+                const response = await fetch(urlbase + "usuarios_estebanquito", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
 
-    }
+                })
 
-    const crearUsuario = ()=>{
-        const numeroCuenta = generarNumeroCuentaUnico();
+                const data = await response.json();
 
-        if(contraseña==confirmacion){
-            setUsuario([...usuario, { nombre: name, 
-                fechaNacimiento: fechaN,
-                tipoIdentidad: tipoI,
-                numI: numI,
-                tipoCuenta: tipoC,
-                apodo: apodo,
-                correo: correo,
-                contraseña: contraseña,
-                numCuenta: numeroCuenta}]);
+                if(data.codigo===1){
+                    alert(data.message)
+                }
+                else{
+                    alert(data.message)
+
+                    const getUser= async()=>{
+                    return fetch(`http://localhost:3001/usuario_interes/${formData.correo}`).
+                        then((res)=> {return res.json()}). 
+                        then((data2) => {setUser(data2); return data2;}).
+                        catch((err)=> console.log(err))
+                    }
+
+                    const data2 = await getUser();
+                    const usuario = {
+                    ...data2.generales[0],
+                    deuda:deuda
+                    };
+                    navigate("/dashboard");
+                    
+                    localStorage.setItem("usuarioActual", JSON.stringify(usuario))
+                }
                 
-            localStorage.setItem("pruebita", correo)
-            navigate("/dashboard");
+                
+                
+            }
+            else{
+                setErrorMsg("Las contraseñas no coinciden");
+                return;
+            }
+            
+        } catch (error) {
+            console.log(error)
+            
         }
-        else{
-            alert("Las contraseñas no coinciden");
-        }
-    }
+};
+
 
     return(
         <div id="fondo">
@@ -108,65 +121,100 @@ function Registro (){
             </div>
             
             <div id="ventanaPrincipal">
-                    <div id="form">
+                <form id="form" onSubmit={handleSubmit}>
                         <h1>Organiza tus <strong>finanzas</strong></h1>
                         <h2>con nosotros</h2>
 
-                        <input type="text" 
-                        onChange={(e)=> setName(e.target.value)} 
+                        <input 
                         placeholder="Ingresa tu nombre completo" 
-                        className="input"/>
+                        className="input"
+                        onChange={handleChange}
+                        type="text"
+                        name="nombre"
+                        value={formData.nombre}
+                        />
 
                         <input type="date" 
-                        onChange={(e)=> setFechaN(e.target.value)} 
                         placeholder="Ingresa tu fecha de nacimiento" 
-                        className="input"/>
+                        className="input"
+                        name="fechaNacimiento"
+                        value={formData.fechaNacimiento}
+                        onChange={handleChange}
+                        />
 
-                        <div id="identidad">
-                            <select className="identidadBox" value={tipoI}
-                            onChange={(e)=> setTipoI(e.target.value)}>
-                                <option value= "" disabled selected>Tipo</option>
-                                <option value="CC">CC</option>
-                                <option value="CE">CE</option>
+                        <div id= "identidad">
+                            <select
+                            className="identidadBox"
+                            name="tipoIdentificacion"
+                            value={formData.tipoIdentificacion}
+                            onChange={handleChange}>
+                                <option value= "" disabled>Tipo</option>
+                                <option value= "CC">CC</option>
+                                <option value= "CE">CE</option>
+                                <option value= "NIT">NIT</option>
                             </select>
 
-                        <input type="number" 
-                        onChange={(e)=> setNumI(e.target.value)}
-                        placeholder="Ingresa tu número de documento" 
-                        className="identidadInput"/>
-
+                            <input type="number" 
+                                placeholder="Ingresa tu número de documento" 
+                                className="identidadInput"
+                                name="numeroIdentificacion"
+                                value={formData.numeroIdentificacion}
+                                onChange={handleChange}
+                            />
                         </div>
 
-                        <select className="identidadInput"
-                        onChange={(e)=> setTipoC(e.target.value)}>
-                                <option value= "" disabled selected>Selecciona el tipo de persona</option>
-                                <option value="Ahorros">Natural</option>
-                                <option value="Corriente">Jurídica</option>
-                        </select>
 
-                        <input type="text" 
-                        onChange={(e)=> setApodo(e.target.value)}
-                        placeholder="¿Cómo te gusta que te llamen?" 
-                        className="input"/>
+                    <select className="input"
+                    name="tipoCuenta"
+                    value={formData.tipoCuenta}
+                    onChange={handleChange}>
+                        <option value= "" disabled>Selecciona el tipo de persona</option>
+                        <option value="Natural">Natural</option>
+                        <option value="Jurídica">Jurídica</option>
+                    </select>   
+                        
 
-                        <input type="text" 
-                        onChange={(e)=> setCorreo(e.target.value)}
-                        placeholder="Ingresa tu correo electrónico" 
-                        className="input"/>
+                    <input
+                            className="input"
+                            type="text"
+                            name="apodo"
+                            value={formData.apodo}
+                            onChange={handleChange}
+                            placeholder="Apodo"
+                    />
 
-                        <input type="text" 
-                        onChange={(e)=> setContraseña(e.target.value)}
-                        placeholder="Ingresa tu contraseña" 
-                        className="input"/>
 
-                        <input type="password" 
+                    <input
+                        className="input"
+                        type="text"
+                        name="correo"
+                        value={formData.correo}
+                        onChange={handleChange}
+                        placeholder="Correo"
+                    />
+
+
+                    <input
+                        className="input"
+                        type="password"
+                        name="contrasena"
+                        value={formData.contrasena}
+                        onChange={handleChange}
+                        placeholder="Contraseña"
+                    />
+
+                    <input
+                        className="input"
+                        type="password"
                         onChange={(e)=> setConfirmacion(e.target.value)}
-                        placeholder="Repite la contraseña" 
-                        className="input"/>
+                        placeholder="Repite la contraseña"
+                    />
 
-                        <button id="registra" onClick={crearUsuario}>Registrarme</button>
+                    {errorMsg && <h5 style={{ color: "red" }}>{errorMsg}</h5>}
+
+                        <button id="registra" type="submit">Registrarme</button>
                         <Link to="/login" id="link">¿Ya tienes una cuenta? Inicia sesión</Link>
-                    </div>
+                </form>
             </div>
 
         </div>

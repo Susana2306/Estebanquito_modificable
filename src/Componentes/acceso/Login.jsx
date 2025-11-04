@@ -6,12 +6,9 @@ import { useState } from "react";
 function Login(){
 
     const navigate= useNavigate();
-    const [campo, setCampo]= useState("");
-    const [contraseña, setConstraseña]= useState("");
 
     const [visible, setVisible] = useState(false);
 
-    
     const mostrarMenu = () => {
         setVisible(!visible);
     };
@@ -20,27 +17,53 @@ function Login(){
         setVisible(!visible);
     }
 
+    const [formData, setFormData] = useState({
+        correo: "",
+        contrasena: "",
+    });
 
-    const validarUser= ()=>{
-        
-        const dataGuardada = localStorage.getItem("usuarios");
-        const usuarios = dataGuardada ? JSON.parse(dataGuardada) : [];
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+        ...formData,
+        [name]: value,
+        });
+    };
 
-        for (let i = 0; i < usuarios.length; i++) {
-            if (usuarios[i].correo === campo) {
-                if( usuarios[i].contraseña === contraseña){
-                    localStorage.setItem("pruebita", campo);
-                    navigate("/dashboard");
-                    return;
-                }
-                else{
-                    alert("Contraseña incorrecta");
-                    return;
-                }
+    
+    const[user, setUser]= useState({});
+
+    const getUser= async()=>{
+            return fetch(`http://localhost:3001/usuario_interes/${formData.correo}`).
+                then((res)=> {return res.json()}). 
+                then((data) => {setUser(data); return data;}).
+                catch((err)=> console.log(err))
+            }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const data = await getUser();
+        try {
+
+            console.log("DATA RECIBIDA DEL BACKEND:", data);
+
+            if((formData.correo===data.generales[0].correo) && (formData.contrasena===data.generales[0].contrasena)){
+
+                const usuario = {
+                ...data.generales[0],
+                deuda:data.deuda
+                };
+
+                localStorage.setItem("usuarioActual", JSON.stringify(usuario))
+                navigate("/dashboard");
+            }
+            else{
+                alert("Credenciales incorrectas")
             }
         }
-
-        alert("Usuario no registrado");
+        catch(error){
+            console.log(error)
+        }
     }
 
     return(
@@ -67,21 +90,25 @@ function Login(){
         <div id="contenedorPadre">            
             <div id="contenedorLogin">
                 <h1 id="label">Bienvenido a <b>Estebanquito</b></h1>
-                <div id="contenedorInputs">
+                <form id="contenedorInputs" onSubmit={handleSubmit}>
                     <input type="text" 
-                    onChange={(e)=> setCampo(e.target.value)} 
+                    onChange={handleChange}
+                    name="correo"
+                    value={formData.correo}
                     className="inputLogin"
                     placeholder="Correo electrónico"/>
 
                     <input type="password" 
-                    onChange={(e)=> setConstraseña(e.target.value)}
+                    name="contrasena"
+                    value={formData.contrasena}
+                    onChange={handleChange}
                     className="inputLogin" 
                     placeholder="Contraseña"/>
                     <Link to="/adjust" id="link"> ¿Olvidaste tu contraseña?</Link>
 
-                    <button id="boton" onClick={validarUser}>Iniciar Sesión</button>
+                    <button id="boton" type="submit">Iniciar Sesión</button>
                     <Link to="/registro" id="link"> ¿No tienes una cuenta? Registrate</Link>
-                </div>
+                </form>
             </div>
 
             <img src="src\Logo\Gemini_Generated_Image_igf225igf225igf2.png" id= "image"/> 
