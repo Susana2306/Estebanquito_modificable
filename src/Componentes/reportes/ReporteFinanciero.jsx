@@ -1,5 +1,6 @@
 import "./ReporteFinanciero.css";
 import { useNavigate } from "react-router";
+import { useState, useEffect } from "react";
 
 function ReporteFinanciero(){
 
@@ -8,6 +9,58 @@ function ReporteFinanciero(){
     const retrocede = ()=>{
         navigate("/dashboard")
     }
+
+    const [saldoDisponible, setSaldoDisponible] = useState("");
+    const [numCuenta, setNumCuenta] = useState("");
+    const [ingresoActual, setIngresoActual] = useState(0);
+    const [ultimoDeposito, setUltimoDeposito] = useState("");
+    const [ultimoRetiro, setUltimoRetiro] = useState("");
+    
+
+    const FijarCuenta = () => {
+        const dataGuardada = JSON.parse(localStorage.getItem("usuarioActual"));
+        setNumCuenta(dataGuardada.numeroCuenta);
+    };
+
+    const FijarSaldoDisponible = ()=>{
+        const dataGuardada =  JSON.parse(localStorage.getItem("usuarioActual"));
+        setSaldoDisponible(parseFloat(dataGuardada.totalSaldo));
+    }
+
+    const getDeposito= async()=>{
+                    return fetch(`http://localhost:3001/ultimo_deposito/${numCuenta}`).
+                        then((res)=> {return res.json()}). 
+                        then((data) => {setUltimoDeposito(data); return data;}).
+                        catch((err)=> console.log(err))
+                }
+
+    const getRetiro=()=>{
+                    return fetch(`http://localhost:3001/ultimo_retiro/${numCuenta}`).
+                        then((res)=> {return res.json()}). 
+                        then((data) => {setUltimoRetiro(data); return data;}).
+                        catch((err)=> console.log(err))
+                }
+
+    useEffect(() => {
+        FijarSaldoDisponible()
+        FijarCuenta();
+    }, []);
+
+    useEffect(() => {
+        if (numCuenta) {
+            getDeposito();
+            getRetiro();
+        }
+    }, [numCuenta]);
+
+    useEffect(() => {
+        if (ultimoDeposito && ultimoRetiro) {
+            const montoDeposito = parseFloat(ultimoDeposito.monto) || 0;
+            const montoRetiro = parseFloat(ultimoRetiro.monto) || 0;
+            const diferencia = montoDeposito - montoRetiro;
+            setIngresoActual(diferencia);
+        }
+    }, [ultimoDeposito, ultimoRetiro]);
 
     return(
         <div id="principalAdjust">
@@ -25,20 +78,21 @@ function ReporteFinanciero(){
                     <div id="containerBalance">
                         <h4>Balance Actual</h4>
                         <div id="containerCont">
-                            <h2>$ 2.000.000</h2>
+                            <h2>$ {saldoDisponible.toLocaleString("es-CO")}</h2>
                             <div id="ingresos">
-                                <h4> Ingresos del mes</h4>
-                                <h3>+ 500.000,78</h3>
+                                <h4> Ingresos actuales</h4>
+                                <h3>{ingresoActual >= 0 ? "+" : "-"}{" "}
+                                    {(ingresoActual).toLocaleString("es-CO")}</h3>
                             </div>
                         </div>
                     </div>
                     <div id="containerBalance">
-                        <h4>Ingresos del mes</h4>
+                        <h4>Ingresos recientes</h4>
                         <div id="containerCont">
-                            <h2>$ 600.000,78</h2>
+                            <h2>$ {(parseFloat(ultimoDeposito?.monto) || 0).toLocaleString("es-CO")}</h2>
                             <div id="gastos">
-                                <h4> Gastos del mes</h4>
-                                <h3>- 100.000</h3>
+                                <h4> Último retiro</h4>
+                                <h3>- {(parseFloat(ultimoRetiro?.monto) || 0).toLocaleString("es-CO")}</h3>
                             </div>
                         </div>
                     </div>

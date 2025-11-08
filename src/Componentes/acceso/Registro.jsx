@@ -210,7 +210,7 @@ function Registro (){
                         placeholder="Repite la contraseña"
                     />
 
-                    {errorMsg && <h5 style={{ color: "red" }}>{errorMsg}</h5>}
+                    {errorMsg && <h6 style={{ color: "red" }}>{errorMsg}</h6>}
 
                         <button id="registra" type="submit">Registrarme</button>
                         <Link to="/login" id="link">¿Ya tienes una cuenta? Inicia sesión</Link>

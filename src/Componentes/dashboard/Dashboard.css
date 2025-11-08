@@ -84,7 +84,7 @@
     box-shadow: 0 0 16px rgba(0, 0, 0, 0.25);
 }
 
-#prestamo{
+#prestamo {
     width: 400px;
     height: 270px;
     border-radius: 10px;
@@ -94,13 +94,45 @@
     margin-bottom: 20px;
     padding-top: 10px;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     box-shadow: 0 0 16px rgba(0, 0, 0, 0.25);
 }
 
-#botonPrestamo {
+#prestamo h5 {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 15px; 
+}
+
+.botonesPrestamo {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 35px;
+}
+
+.botonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.botonPrestamo {
+    margin-bottom: 8px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.imagenP {
+    width: 100px;
+    height: auto;
+}
+
+#botonReportes {
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 0;              
@@ -108,12 +140,12 @@
     background: none;                
 }
 
-#botonPrestamo .imagenR{
+#botonReportes .imagenR{
     filter: hue-rotate(210deg) saturate(1.2) brightness(1.1);
 
 }
 
-#botonPrestamo .imagenP {      
+#botonReportes .imagenP {      
     width: 200px;            
     height: auto;
     border-radius: 10px; 

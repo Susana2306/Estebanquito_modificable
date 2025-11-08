@@ -61,11 +61,11 @@ function Dashboard(){
     }
     const FijarSaldoDisponible = ()=>{
         const dataGuardada =  JSON.parse(localStorage.getItem("usuarioActual"));
-        setSaldoDisponible(dataGuardada.totalSaldo);
+        setSaldoDisponible(parseFloat(dataGuardada.totalSaldo));
     }
     const FijarSaldoPendiente = ()=>{
         const dataGuardada =  JSON.parse(localStorage.getItem("usuarioActual"));
-        setSaldoPendiente(dataGuardada.deuda);
+        setSaldoPendiente(parseFloat(dataGuardada.deuda));
     }
 
     const FijarTipoCuenta = ()=>{
@@ -168,18 +168,30 @@ function Dashboard(){
 
                 <div id="detalles">
                     <h5>Reportes financieros</h5>
-                    <button id="botonPrestamo" onClick={reporte}>
+                    <button id="botonReportes" onClick={reporte}>
                         <img src="src\Logo\prestamo.png" alt="Reporte" width="180px" className="imagenR" />
                     </button>
                 </div>
 
                 <div id="prestamo">
-                    <h5>Solicita un préstamo aqui</h5>
-                    <button id="botonPrestamo" onClick={prestamo}>
-                        <img src="src\Logo\solicitud.png" alt="Préstamo" width="180px" className="imagenP" />
-                    </button>
-                </div>
+                <h5>Préstamos</h5>
+                <div className="botonesPrestamo">
+                    <div className="botonContainer">
+                        <button className="botonPrestamo" onClick={prestamo}>
+                            <img src="src/Logo/solicitud.png" alt="Préstamo" className="imagenP" />
+                        </button>
+                        <h6>Solicitar Préstamo</h6>
+                    </div>
 
+                    <div className="botonContainer">
+                        <button className="botonPrestamo" onClick={() => moverPlata("abonar")}>
+                            <img src="src\Logo\cuentas-por-pagar.png" alt="Abonar" className="imagenP" />
+                        </button>
+                        <h6>Abonar</h6>
+                    </div>
+                </div>
+            </div>
+                
             </div>
         </div>
         </>
