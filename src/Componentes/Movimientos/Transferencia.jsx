@@ -1,5 +1,5 @@
 import "./Transferencia.css";
-import { useState } from "react";
+import { useState, useEffect  } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 
@@ -30,6 +30,13 @@ function Transferencia(){
                 retiro: ""
             });
 
+    const [formData_abono, setFormData_abono] = useState({
+                valorAbonado: "",
+                concepto: ""
+            });
+
+    const [concepto, setConcepto] = useState([]);
+
     const updateStorage = async () =>{
                 console.log(`${usuario.correo}`)
 
@@ -39,9 +46,21 @@ function Transferencia(){
                 catch((err)=> console.log(err))
             }
 
+    const getPrestamo =()=>{
+                    return fetch(`http://localhost:3001/concepto/${usuario.numeroCuenta}`).
+                        then((res)=> {return res.json()}). 
+                        then((data) => {setConcepto(data); return data;}).
+                        catch((err)=> console.log(err))
+                }
+
+    useEffect(() => {
+        if (accion === "abonar") {
+            getPrestamo();
+        }
+        }, [accion]);
+
     const [errorMsg, setErrorMsg] = useState("");
     const[user, setUser]= useState({});
-    const[userD, setUserD]= useState({});
 
     const mostrarEnPanel = () => {
         
@@ -256,8 +275,47 @@ function Transferencia(){
                 </div>
             );
             }
-            else if (accion === "abono") {
+            else if (accion === "abonar") {
 
+                const handleChange = (e) => {
+                const { name, value } = e.target;
+                setFormData_abono({
+                ...formData_abono,
+                [name]: value,
+                });
+            };
+            
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                try{
+
+                    console.log(formData_abono);
+                    const urlbase = "http://localhost:3001/"
+                    const response = await fetch(urlbase + `abono/${usuario.numeroCuenta}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formData_abono)})
+
+                const data1= await updateStorage();
+
+                const user = {
+                ...data1.generales[0],
+                deuda:data1.deuda
+                };
+
+                console.log(data1)
+                console.log(response)
+                localStorage.setItem("usuarioActual", JSON.stringify(user))
+
+                alert("abono exitoso")
+                navigate("/dashboard")
+                }
+                catch(err){
+                    console.log(err)
+                }
+            }
             return (
                 <div id="transferencia">
                     <div id="paraAlinear2">
@@ -266,13 +324,28 @@ function Transferencia(){
                         </button>
                     </div>
                     
-                    <form id="containerMov">
-                        <h4>Retiro</h4>
-                        <input placeholder="Monto a retirar" 
-                        name="retiro"
+                    <form id="containerMov" onSubmit={handleSubmit}>
+                        <h4>Abono</h4>
+                        <input placeholder="Monto a abonar" 
+                        name="valorAbonado"
                         className="input"
+                        onChange={handleChange}
+                        value={formData_abono.valorAbonado}
                         />
-                        <button id="registra">Retirar</button>
+                        <select
+                        className="input"
+                        name="concepto"
+                        value={formData_abono.concepto}
+                        onChange={handleChange}
+                        >
+                        <option value="" disabled>Selecciona concepto</option>
+                        {concepto.map((item, index) => (
+                            <option key={index} value={item.concepto}>
+                            {item.concepto}
+                            </option>
+                        ))}
+                        </select>
+                        <button id="registra" type="submit">Abonar</button>
                     </form>
                 </div>
             );
