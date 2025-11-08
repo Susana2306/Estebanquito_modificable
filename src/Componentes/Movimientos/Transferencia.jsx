@@ -33,11 +33,10 @@ function Transferencia(){
     const updateStorage = async () =>{
                 console.log(`${usuario.correo}`)
 
-                fetch(`http://localhost:3001/usuario_interes/${usuario.correo}`).
+                return fetch(`http://localhost:3001/usuario_interes/${usuario.correo}`).
                 then((res)=> res.json()). 
                 then((data1) => data1).
                 catch((err)=> console.log(err))
-          
             }
 
     const [errorMsg, setErrorMsg] = useState("");
@@ -84,9 +83,17 @@ function Transferencia(){
                 })
                 const data = await getUser();
                 const data1= await updateStorage();
-                console.log("oeee"+ data1.generales[0].correo)
+
+                const user = {
+                ...data1.generales[0],
+                deuda:data1.deuda
+                };
+                
+                console.log(data1)
                 console.log(data)
-                // localStorage.setItem("usuarioActual", JSON.stringify(data1))
+
+                localStorage.setItem("usuarioActual", JSON.stringify(user))
+
                 alert(`Transferencia exitosa a ` + data[0].nombre)
                 navigate("/dashboard");
                 }
@@ -154,6 +161,17 @@ function Transferencia(){
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify(formData_deposito)})
+
+                const data1= await updateStorage();
+
+                const user = {
+                ...data1.generales[0],
+                deuda:data1.deuda
+                };
+                localStorage.setItem("usuarioActual", JSON.stringify(user))
+
+                alert("Depósito exitoso")
+                navigate("/dashboard")
                 }
                 catch(err){
                     console.log(err)
@@ -201,7 +219,17 @@ function Transferencia(){
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify(formData_retiro)})
-                    updateStorage()
+
+                const data1= await updateStorage();
+
+                const user = {
+                ...data1.generales[0],
+                deuda:data1.deuda
+                };
+                localStorage.setItem("usuarioActual", JSON.stringify(user))
+
+                alert("retiro exitoso")
+                navigate("/dashboard")
                 }
                 catch(err){
                     console.log(err)
