@@ -35,15 +35,15 @@ function Prestamo() {
 
         if (frecuenciaPago === "Quincenal") {
             ingresoDisponible = (salarioNum - gastosNum) / 2;
-            valorCuota = (solicitadoNum / cuotasNum);
         } else {
             ingresoDisponible = salarioNum - gastosNum;
-            valorCuota = (solicitadoNum / cuotasNum);
-            setAprobado(true);
         }
+
+        valorCuota = (solicitadoNum / cuotasNum);
 
         if (ingresoDisponible > parseFloat(valorCuota)) {
             setValorAPagar(valorCuota);
+            setAprobado(true);
         } else {
             alert("No se puede realizar el préstamo. Tus gastos superan tu capacidad de pago.");
             setAprobado(false);
