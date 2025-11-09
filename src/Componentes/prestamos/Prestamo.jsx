@@ -10,13 +10,10 @@ function Prestamo() {
         navigate("/dashboard")
     }
 
-    const [solicitado, setSolicitado]= useState("");
-    const [cuotas, setCuotas]= useState("");
     const [salario, setSalario]= useState("");
     const [gastos, setGastos]= useState("");
     const [ValorAPagar, setValorAPagar]= useState("");
-    const [frecuenciaPago, setFrecuenciaPago] = useState("");
-    const [concepto, setConcepto] = useState("");
+    const [aprobado, setAprobado] = useState(false);
 
     const usuario= JSON.parse(localStorage.getItem("usuarioActual"));
     const [formData_prestamo, setFormData_prestamo] = useState({
@@ -42,12 +39,15 @@ function Prestamo() {
         } else {
             ingresoDisponible = salarioNum - gastosNum;
             valorCuota = (solicitadoNum / cuotasNum);
+            setAprobado(true);
         }
 
         if (ingresoDisponible > parseFloat(valorCuota)) {
             setValorAPagar(valorCuota);
         } else {
             alert("No se puede realizar el préstamo. Tus gastos superan tu capacidad de pago.");
+            setAprobado(false);
+            setValorAPagar("")
         }
     };
 
@@ -69,6 +69,11 @@ function Prestamo() {
     };
     const handleSubmit = async (e) => {
                 e.preventDefault();
+
+                if (!aprobado) {
+                alert("Debes calcular tu préstamo y asegurarte de que sea aprobado antes de continuar.");
+                return;
+                }
 
                 try{
                     console.log(formData_prestamo);
