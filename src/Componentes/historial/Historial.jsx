@@ -1,5 +1,5 @@
 import "./Historial.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {Link} from "react-router";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
@@ -7,6 +7,29 @@ import { useNavigate } from "react-router";
 function MostrarHistorial(){
 
     const navigate= useNavigate();
+
+    const [movimientos, setMovimientos] = useState([]);
+
+    const usuario= JSON.parse(localStorage.getItem("usuarioActual"))
+
+    const numeroCuenta= usuario.numeroCuenta;
+
+    useEffect(() => {
+    const obtenerHistorial = async () => {
+        try {
+            if (!numeroCuenta) return;
+            const res = await fetch(`http://localhost:3001/movimientos/${numeroCuenta}`);
+            const data = await res.json();
+            setMovimientos(data);
+            console.log(movimientos)
+        } catch (error) {
+            console.error("Error al obtener movimientos:", error);
+        }
+    };
+
+      obtenerHistorial();
+
+    }, [numeroCuenta]);
 
     const retrocede = ()=>{
         navigate("/dashboard")
@@ -24,38 +47,82 @@ function MostrarHistorial(){
                     <i className="bi bi-x-circle"></i>
                 </button>
             </div>
-            <div id = "historialM">
-                <div id = "Movimiento1">
-                    <div id = "Sujeto1">
-                        <h3 id = "fecha1">20/01/2025</h3>
-                        <h3 id = "banco">Transferencia nominal</h3>
-                    </div>
-                    <div id = "Pago1">
-                        <h1>+ $ 500.000,78</h1>
-                    </div>
+            <div id="historialM">
+          {movimientos.length > 0 ? (
+          movimientos.map((mov, i) => {
+            const tipo = mov.tipoMovimiento?.toLowerCase();
+            let color = "";
+            let signo = "";
+
+            switch (tipo) {
+              case "transferencia enviada":
+                color = "red";
+                signo = "-";
+                break;
+              case "transferencia recibida":
+                color = "green";
+                signo = "+";
+                break;
+              case "retiro":
+                color = "red";
+                signo = "-";
+                break;
+              case "depósito":
+                color = "green";
+                signo = "+";
+                break;
+              default:
+                color = "gray";
+                signo = "";
+            }
+
+            return (
+              <div key={i} className="Movimiento">
+                <div className="Sujeto">
+                  <h3 className="fecha">
+                    {new Date(mov.fecha).toLocaleString("es-CO", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </h3>
+                  <h3 className="tipoMovimiento" style={{ color }}>
+                    {mov.tipoMovimiento}
+                  </h3>
                 </div>
-                <div id = "Movimiento2">
-                    <div id = "Sujeto2">
-                        <h3 id = "fecha2">15/01/2025</h3>
-                        <h3 id = "cobro">Tierra Querida</h3>
-                    </div>
-                    <div id = "Pago2">
-                        <h1>- $ 26.000</h1>
-                    </div>
+
+                <div className="DetallesMovimiento">
+                  {/* Solo mostrar cuenta destino si es transferencia enviada */}
+                  {mov.cuentaDestino && tipo === "transferencia enviada" && (
+                    <p className="cuentaDestino">
+                      <strong>Cuenta destino:</strong> {mov.cuentaDestino}
+                    </p>
+                  )}
+
+                  {/* Concepto o descripción */}
+                  <p className="concepto">
+                    <strong>Concepto:</strong> {mov.concepto || mov.descripcion || "Sin especificar"}
+                  </p>
+
+                  {/* Monto */}
+                  <p className="monto" style={{ color }}>
+                    <strong>Monto:</strong> {signo} $
+                    {Number(mov.monto || mov.valor || 0).toLocaleString("es-CO")}
+                  </p>
                 </div>
-                <div id = "Movimiento3">
-                    <div id = "Sujeto3">
-                        <h3 id = "fecha3">14/01/2025</h3>
-                        <h3 id = "ingreso">Pepito Perez</h3>
-                    </div>
-                    <div id = "Pago3">
-                        <h1>+ $ 50.000</h1>
-                    </div>
-                </div>
-            </div>
+              </div>
+            );
+          })
+        ) : (
+          <p>No hay movimientos registrados</p>
+        )}
+
         </div>
+      </div>
     </div>
-    )
+  );
 }
 
 export default MostrarHistorial;

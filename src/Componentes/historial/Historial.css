@@ -1,7 +1,7 @@
 #vistaPrincipalM{
     display: flex;
     width: 100%;
-    min-height: 100vh;
+    min-height: 500vh;
     flex-direction: column;
     background-color: rgb(244, 255, 251);
 }
@@ -43,66 +43,12 @@
     display: flex;
     flex-direction: column;
     width: 90%;
-    height: 90%;
+    height: fit-content;
     background-image: url("src/Logo/images (1).jpeg");
     background-size: cover;
     background-position: center;
     margin-top: 20px;
     border-radius: 20px;
-}
-
-#Movimiento1{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    flex-direction: row;
-    align-items: center;
-    width: 95%;
-    height: 120px;
-    margin-top: 20px;
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 30px;
-    background-color: white;
-    border-radius: 20px;
-    border: solid;
-    border-color: green;
-}
-
-#Sujeto1{
-    width: 40%;
-    height: 90%;
-    margin-left: 10px;
-    justify-content: center;
-    align-items: center;
-}
-
-#fecha1{
-    width: 300px;
-}
-
-#banco{
-    width: 300px;
-}
-
-#Valor1{
-    width: 300px;
-    justify-content: flex-start;
-    float: inline-end;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    margin-bottom: 500px;
-}
-
-#Pago1{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40%;
-    height: 90%;
-    color: green;
-    width: 300px;
-    text-align: right;
 }
 
 #TituloM{
@@ -120,102 +66,47 @@
     padding-left: 450px;
 }
 
-#Movimiento2{
+.Movimiento {
+    background-color: #f9fafb;
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.Movimiento:hover {
+    background-color: #f3f4f6;
+    transform: translateY(-2px);
+}
+
+.Sujeto {
     display: flex;
     justify-content: space-between;
-    flex-direction: row;
-    align-items: center;
-    width: 95%;
-    height: 120px;
-    margin-top: 20px;
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 30px;
-    background-color: white;
-    border-radius: 20px;
-    border: solid;
-    border-color: red;
-}
-
-#Sujeto2{
-    width: 40%;
-    height: 90%;
-    margin-left: 10px;
-    justify-content: center;
     align-items: center;
 }
 
-#fecha2{
-    width: 300px;
+.Sujeto .fecha {
+    color: #6b7280;
+    font-size: 0.9rem;
 }
 
-#banco{
-    width: 300px;
+.Sujeto .tipo {
+    font-weight: 600;
+    text-transform: capitalize;
+    font-size: 1rem;
 }
 
-#Pago2{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40%;
-    height: 90%;
-    color: red;
-    width: 300px;
-    text-align: right;
+.DetallesMovimiento {
+    margin-top: 8px;
 }
 
-#Movimiento3{
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    align-items: center;
-    width: 95%;
-    height: 120px;
-    margin-top: 20px;
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 30px;
-    background-color: white;
-    border-radius: 20px;
-    border: solid;
-    border-color: green;
+.DetallesMovimiento p {
+    margin: 4px 0;
+    font-size: 0.95rem;
+    color: #374151;
 }
 
-#Sujeto3{
-    width: 40%;
-    height: 90%;
-    margin-left: 10px;
-    justify-content: center;
-    align-items: center;
-}
-
-#fecha3{
-    width: 300px;
-}
-
-#ingreso{
-    width: 300px;
-}
-
-#Pago3{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40%;
-    height: 90%;
-    color: green;
-    width: 300px;
-    text-align: right;
-}
-
-#Movimiento1:hover {
-    background-color: #67fd8c;
-}
-
-#Movimiento3:hover {
-    background-color: #67fd8c;
-}
-
-#Movimiento2:hover {
-    background-color: rgb(252, 101, 101);
+.DetallesMovimiento strong {
+    color: #111827;
 }
