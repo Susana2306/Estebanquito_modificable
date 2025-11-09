@@ -15,6 +15,7 @@ function ReporteFinanciero(){
     const [ingresoActual, setIngresoActual] = useState(0);
     const [ultimoDeposito, setUltimoDeposito] = useState("");
     const [ultimoRetiro, setUltimoRetiro] = useState("");
+    const [ultimoAbono, setUltimoAbono] = useState("");
     
 
     const FijarCuenta = () => {
@@ -41,6 +42,13 @@ function ReporteFinanciero(){
                         catch((err)=> console.log(err))
                 }
 
+    const getAbono=()=>{
+                    return fetch(`http://localhost:3001/ultimo_abono/${numCuenta}`).
+                        then((res)=> {return res.json()}). 
+                        then((data) => {setUltimoAbono(data); return data;}).
+                        catch((err)=> console.log(err))
+                }
+
     useEffect(() => {
         FijarSaldoDisponible()
         FijarCuenta();
@@ -50,17 +58,19 @@ function ReporteFinanciero(){
         if (numCuenta) {
             getDeposito();
             getRetiro();
+            getAbono()
         }
     }, [numCuenta]);
 
     useEffect(() => {
-        if (ultimoDeposito && ultimoRetiro) {
-            const montoDeposito = parseFloat(ultimoDeposito.monto) || 0;
-            const montoRetiro = parseFloat(ultimoRetiro.monto) || 0;
-            const diferencia = montoDeposito - montoRetiro;
-            setIngresoActual(diferencia);
-        }
-    }, [ultimoDeposito, ultimoRetiro]);
+        const montoDeposito = parseFloat(ultimoDeposito.monto) || 0;
+        const montoRetiro = parseFloat(ultimoRetiro.monto) || 0;
+        const montoAbono = parseFloat(ultimoAbono.monto) || 0;
+
+        const diferencia = montoDeposito - (montoRetiro + montoAbono);
+        setIngresoActual(diferencia);
+        
+    }, [ultimoDeposito, ultimoRetiro, ultimoAbono]);
 
     return(
         <div id="principalAdjust">
@@ -81,18 +91,24 @@ function ReporteFinanciero(){
                             <h2>$ {saldoDisponible.toLocaleString("es-CO")}</h2>
                             <div id="ingresos">
                                 <h4> Ingresos actuales</h4>
-                                <h3>{ingresoActual >= 0 ? "+" : "-"}{" "}
-                                    {(ingresoActual).toLocaleString("es-CO")}</h3>
+                                <h3>{ingresoActual >= 0 ? "+" : "-"}{" "} 
+                                    {Math.abs(ingresoActual).toLocaleString("es-CO")}</h3>
                             </div>
                         </div>
                     </div>
                     <div id="containerBalance">
                         <h4>Ingresos recientes</h4>
-                        <div id="containerCont">
+                        <div id="containerCont2">
                             <h2>$ {(parseFloat(ultimoDeposito?.monto) || 0).toLocaleString("es-CO")}</h2>
-                            <div id="gastos">
+                            <div className="gastos-container">
+                                <div id="gastos">
                                 <h4> Último retiro</h4>
                                 <h3>- {(parseFloat(ultimoRetiro?.monto) || 0).toLocaleString("es-CO")}</h3>
+                                </div>
+                                <div id="gastos">
+                                    <h4> Último Abono</h4>
+                                    <h3>- {(parseFloat(ultimoAbono?.monto) || 0).toLocaleString("es-CO")}</h3>
+                                </div>
                             </div>
                         </div>
                     </div>

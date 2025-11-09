@@ -36,3 +36,17 @@
 #centro button{
     margin-bottom: 15px;
 }
+
+.inputPrestamo {
+    width: 57%;
+    height: 10%;
+    border-radius: 8px;
+}
+
+#registraPrestamo{
+    border-radius: 15px;
+    width:30%;
+    color:white;
+    background-color: rgb(97 143 130);
+    font-weight: bolder;
+}
