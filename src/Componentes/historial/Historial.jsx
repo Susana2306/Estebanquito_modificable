@@ -20,14 +20,40 @@ function MostrarHistorial(){
             if (!numeroCuenta) return;
             const res = await fetch(`http://localhost:3001/movimientos/${numeroCuenta}`);
             const data = await res.json();
-            setMovimientos(data);
-            console.log(movimientos)
+
+            const resAbo = await fetch(`http://localhost:3001/abono/${numeroCuenta}`);
+            const dataAbo = await resAbo.json();
+
+        // Normalizar movimientos
+        const movimientos = data.map(mov => ({
+            tipoMovimiento: mov.tipoMovimiento,
+            fecha: mov.fecha || mov.fechaMovimiento,
+            monto: mov.monto || mov.valor || 0,
+            cuentaDestino: mov.cuentaDestino || null,
+            concepto: mov.concepto || mov.descripcion || "Sin especificar",
+        }));
+
+        // Normalizar abonos
+        const abonos = dataAbo.map(abo => ({
+            tipoMovimiento: "Abono",
+            fecha: abo.fecha || abo.fechaAbono,
+            monto: abo.monto || abo.valorAbonado || 0,
+            cuentaDestino: null,
+            concepto: "Pago de préstamo",
+        }));
+
+
+        const todos = [...movimientos, ...abonos].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
+        setMovimientos(todos);
+            // setMovimientos(data);
+            // console.log(movimientos)
         } catch (error) {
             console.error("Error al obtener movimientos:", error);
         }
     };
 
-      obtenerHistorial();
+    obtenerHistorial();
 
     }, [numeroCuenta]);
 
@@ -55,23 +81,27 @@ function MostrarHistorial(){
             let signo = "";
 
             switch (tipo) {
-              case "transferencia enviada":
+            case "transferencia enviada":
                 color = "red";
                 signo = "-";
-                break;
-              case "transferencia recibida":
+            break;
+            case "transferencia recibida":
                 color = "green";
                 signo = "+";
-                break;
-              case "retiro":
+            break;
+            case "retiro":
                 color = "red";
                 signo = "-";
-                break;
-              case "depósito":
+            break;
+            case "depósito":
                 color = "green";
                 signo = "+";
-                break;
-              default:
+            break;
+            case "abono":
+                color = "red";
+                signo = "-";
+            break;
+            default:
                 color = "gray";
                 signo = "";
             }
