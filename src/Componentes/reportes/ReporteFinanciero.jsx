@@ -2,8 +2,9 @@ import "./ReporteFinanciero.css";
 import { useNavigate } from "react-router";
 import { useState, useEffect } from "react";
 import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-ChartJS.register(ArcElement, Tooltip, Legend);
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale, } from "chart.js";
+import { Line } from "react-chartjs-2";
+ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend, ArcElement);
 
 
 function ReporteFinanciero(){
@@ -154,6 +155,66 @@ function ReporteFinanciero(){
     }, [ultimoDeposito, ultimoRetiro, ultimoAbono]);
 
 
+    const obtenerDatosGrafico_lineas = () => {
+
+    const hoy = new Date();
+    const dias = Array.from({ length: 7 }, (_, i) => {
+        const d = new Date();
+        d.setDate(hoy.getDate() - (6 - i)); 
+        return d.toISOString().split("T")[0]; 
+    });
+
+    const resumen = dias.map(() => ({ deposito: 0, retiro: 0, transferencia: 0 }));
+
+        movimientos.forEach((mov) => {
+        const fechaMov = new Date(mov.fecha).toISOString().split("T")[0];
+
+        const index = dias.indexOf(fechaMov);
+
+        if (index !== -1) {
+        const tipo = mov.tipoMovimiento.toLowerCase();
+        const monto = Number(mov.monto) || 0;
+
+        if (tipo.includes("depósito")) resumen[index].deposito += monto;
+        else if (tipo.includes("retiro")) resumen[index].retiro += monto;
+        else if (tipo.includes("transferencia")) resumen[index].transferencia += monto;
+        }
+    });
+
+    return {
+        labels: dias.map((d) =>
+        new Date(d).toLocaleDateString("es-CO", { weekday: "short", day: "numeric" })
+        ),
+        datasets: [
+        {
+            label: "Depósitos",
+            data: resumen.map((r) => r.deposito),
+            borderColor: "#eccc74",
+            backgroundColor: "#eccc74",
+            tension: 0.4,
+        },
+        {
+            label: "Retiros",
+            data: resumen.map((r) => r.retiro),
+            borderColor: "#fc99ae",
+            backgroundColor: "#fc99ae",
+            tension: 0.4,
+        },
+        {
+            label: "Transferencias",
+            data: resumen.map((r) => r.transferencia),
+            borderColor: "#8bf7e9",
+            backgroundColor: "#8bf7e9",
+            tension: 0.4,
+        },
+        ],
+    };
+    };
+
+    const dataTime = obtenerDatosGrafico_lineas();
+
+
+
     return(
         <div id="principalAdjust">
             <div id="vistaPrincipal">
@@ -206,7 +267,7 @@ function ReporteFinanciero(){
             </div>
             <div id="grafica2">
                 <h4>Evolucion de Balance</h4>
-                <img src="src\Logo\reportesFinancieros.png" alt="Reporte" className="graficoL"/>
+                <Line data={dataTime} options={{ responsive: true, maintainAspectRatio: false }} />
             </div>
         </div>
     )
