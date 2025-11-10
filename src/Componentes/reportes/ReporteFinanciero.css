@@ -74,7 +74,7 @@
 
 #grafica1 {
     width: 60%;
-    height: 258px;
+    height: 298px;
     margin-right: 18px;
     background-color: white;
     padding: 20px;
@@ -86,7 +86,7 @@
     color: #343a40;
     margin-top: 0;
     margin-bottom: 10px;
-    font-size: 16px;
+    font-size: 14px;
     border-bottom: 1px solid #e9ecef;
     padding-bottom: 10px;
 }

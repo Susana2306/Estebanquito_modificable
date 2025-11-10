@@ -1,6 +1,10 @@
 import "./ReporteFinanciero.css";
 import { useNavigate } from "react-router";
 import { useState, useEffect } from "react";
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 
 function ReporteFinanciero(){
 
@@ -16,7 +20,84 @@ function ReporteFinanciero(){
     const [ultimoDeposito, setUltimoDeposito] = useState("");
     const [ultimoRetiro, setUltimoRetiro] = useState("");
     const [ultimoAbono, setUltimoAbono] = useState("");
-    
+
+    const usuario= JSON.parse(localStorage.getItem("usuarioActual"))
+
+    const numeroCuenta= usuario.numeroCuenta;
+    const [movimientos, setMovimientos] = useState([]);
+
+    useEffect(() => {
+    const obtenerHistorial = async () => {
+        try {
+            if (!numeroCuenta) return;
+            const res = await fetch(`http://localhost:3001/movimientos/${numeroCuenta}`);
+            const data = await res.json();
+            setMovimientos(data);
+            console.log(movimientos)
+        } catch (error) {
+            console.error("Error al obtener movimientos:", error);
+        }
+    };
+
+        obtenerHistorial();
+
+    }, [numeroCuenta]);
+
+    const obtenerDatosGrafico = () => {
+    const resumen = { deposito: 0, retiro: 0, transferencia: 0, recibidas: 0 };
+
+    movimientos.forEach((mov) => {
+        if (mov.tipoMovimiento.toLowerCase().includes("depósito")) resumen.deposito++;
+        else if (mov.tipoMovimiento.toLowerCase().includes("retiro")) resumen.retiro++;
+        else if (mov.tipoMovimiento.toLowerCase().includes("transferencia enviada")) resumen.transferencia++;
+        else if (mov.tipoMovimiento.toLowerCase().includes("transferencia recibida")) resumen.recibidas++;
+    });
+
+    return {
+        labels: ["Depósitos", "Retiros", "Transferencias Enviadas", "Transferencias Recibidas"],
+        datasets: [
+        {
+            data: [resumen.deposito, resumen.retiro, resumen.transferencia, resumen.recibidas],
+            backgroundColor: ["#eccc74ff", "#fc99aeff", "#8bf7e9ff", "#75fa99ff"],
+            borderWidth: 1,
+        },
+        ],
+    };
+    };
+
+    const data = obtenerDatosGrafico();
+    const total = data.datasets[0].data.reduce((acc, val) => acc + val, 0);
+
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            tooltip: {
+            callbacks: {
+            label: function (context) {
+                const label = data.labels[context.dataIndex];
+                const value = context.dataset.data[context.dataIndex];
+                const porcentaje = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+            return `${label}: ${value} (${porcentaje}%)`;
+            },
+            },
+        },
+        legend: {
+            position: "right",
+            align: "center",
+            labels: {
+            boxWidth: 20,
+            padding: 10,
+            font: { size: 13 },
+            },
+        },
+        },
+        layout: {
+        padding: {
+            right: 20, 
+        },
+        },
+    };
 
     const FijarCuenta = () => {
         const dataGuardada = JSON.parse(localStorage.getItem("usuarioActual"));
@@ -72,6 +153,7 @@ function ReporteFinanciero(){
         
     }, [ultimoDeposito, ultimoRetiro, ultimoAbono]);
 
+
     return(
         <div id="principalAdjust">
             <div id="vistaPrincipal">
@@ -114,8 +196,12 @@ function ReporteFinanciero(){
                     </div>
                 </div>
                 <div id="grafica1">
-                    <h4>Grafica por Categoria</h4>
-                    <img src="src\Logo\GraficoCircular.png" alt="Grafico Circular" className="graficoC"/>
+                    <h4>Porcentaje de movimientos de {usuario.apodo}</h4>
+                    {movimientos.length > 0 && (
+                        <div style={{ width: "790px", margin: "30px auto", padding: "10px" }}>
+                        <Pie data={data} options={options}/>
+                        </div>
+                    )}
                 </div>
             </div>
             <div id="grafica2">
