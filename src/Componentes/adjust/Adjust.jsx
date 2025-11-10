@@ -1,7 +1,5 @@
 import "./Adjust.css";
 import { useState } from "react";
-import {Link} from "react-router";
-import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 
 function Adjust(){

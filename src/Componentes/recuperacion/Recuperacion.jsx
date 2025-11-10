@@ -1,7 +1,5 @@
 import "./Recuperacion.css";
 import { useState } from "react";
-import {Link} from "react-router";
-import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 
 function Recuperacion(){
@@ -15,6 +13,7 @@ function Recuperacion(){
     const [nuevaContraseña, setNuevaContraseña]= useState("");
     const [cedula, setCedula]= useState("");
     const [numCuenta, setNumCuenta]= useState("");
+    const [user, setUser]= useState("");
     
 
     const guardarRe = async () => {
@@ -22,32 +21,36 @@ function Recuperacion(){
         alert("Todos los campos son obligatorios");
         return;
     }
+    try {
+        const res = await fetch(`http://localhost:3001/recuperarContrasena/${numCuenta}/${cedula}`);
+    const data = await res.json();
 
-    const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
-    const actual = usuario?.contrasena;
-    if (actual === nuevaContraseña) {
-        alert("La nueva contraseña no puede ser igual a la actual");
-        return;
+    setUser(data); 
+
+    console.log("Datos recibidos:", data);
+
+
+    if(user[0].contrasena===nuevaContraseña){
+        alert('La nueva contraseña debe ser diferente a la actual')
+        return
+    }else{
+        const res = await fetch(`http://localhost:3001/cambiarContrasena/${user[0].correo}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ nuevaContraseña: nuevaContraseña }),
+            });
+
+            alert('Cambio exitoso')
+            navigate("/login")
     }
 
-    try {
-        const res = await fetch(`http://localhost:3001/recuperarContrasena/${numCuenta}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cedula, nuevaContraseña }),
-    });
 
-        const data = await res.json();
 
-        if (res.ok) {
-            alert(data.message); 
-            navigate("/login");
-        } else {
-            alert("Error al cambiar la contraseña: " + (data.message || res.statusText));
-        }
+        
     } catch (err) {
         console.error("Error al actualizar contraseña:", err);
-        alert("Ocurrió un error al actualizar la contraseña");
     }
 };
 
