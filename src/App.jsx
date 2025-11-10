@@ -9,6 +9,7 @@ import ReporteFinanciero from './Componentes/reportes/ReporteFinanciero';
 import Prestamo from './Componentes/prestamos/Prestamo';
 import Historial from './Componentes/historial/Historial';
 import Adjust from './Componentes/adjust/Adjust';
+import Recuperacion from './Componentes/recuperacion/Recuperacion';
 
 
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/SolicitarPrestamo" element={<Prestamo />} />
         <Route path="/historial" element={<Historial />} />
         <Route path="/adjust" element={<Adjust />} />
+        <Route path="/recuperacion" element={<Recuperacion />} />
       </Routes>
     </BrowserRouter>
   )

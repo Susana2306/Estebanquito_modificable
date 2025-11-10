@@ -104,7 +104,7 @@ function Login(){
                     onChange={handleChange}
                     className="inputLogin" 
                     placeholder="Contraseña"/>
-                    <Link to="/adjust" id="link"> ¿Olvidaste tu contraseña?</Link>
+                    <Link to="/recuperacion" id="link"> ¿Olvidaste tu contraseña?</Link>
 
                     <button id="boton" type="submit">Iniciar Sesión</button>
                     <Link to="/registro" id="link"> ¿No tienes una cuenta? Registrate</Link>
