@@ -17,16 +17,62 @@ function Adjust(){
     const [confirmacion, setConfirmacion]= useState("");
 
 
-    const guardar = ()=>{
-        if(contraseñaAntigua === contraseñaNueva){
-            alert("Tu nueva contraseña debe ser diferente a la actual")
-        }
-        else{
-            if (contraseñaNueva === confirmacion){
-                alert ("Cambio exitoso")
-            }
-        }
+const guardar = async () => {
+
+    if (!contraseñaAntigua || !contraseñaNueva || !confirmacion) {
+        alert("Todos los campos son obligatorios");
+    return;
+
     }
+    if (contraseñaAntigua === contraseñaNueva) {
+        alert("Tu nueva contraseña debe ser diferente a la actual");
+        return;
+    }
+
+    if (contraseñaAntigua === confirmacion) {
+        alert("Los campos no son válidos");
+        return;
+    }
+
+    if (contraseñaNueva !== confirmacion) {
+        alert("Las contraseñas no coinciden");
+        return;
+    }
+
+    try {
+        const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
+        const id = usuario?.correo;
+
+        if (!id) {
+            alert("No se encontró el usuario");
+            return;
+        }
+
+        const res = await fetch(`http://localhost:3001/cambiarContrasena/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ nuevaContraseña: contraseñaNueva }),
+        });
+
+        console.log("Respuesta raw:", res);
+
+        const data = await res.json();
+        console.log("Respuesta json:", data);
+
+        if (res.ok) {
+            alert(data.message); 
+            navigate("/dashboard");
+        } else {
+            alert("Error al cambiar la contraseña: " + (data.message || res.statusText));
+        }
+
+    } catch (err) {
+        console.error("Error al actualizar contraseña:", err);
+        alert("Ocurrió un error al actualizar la contraseña");
+    }
+};
     
 
     return(
